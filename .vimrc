@@ -13,6 +13,7 @@ Bundle 'elzr/vim-json'
 Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'plasticboy/vim-markdown'
 Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
+Plugin 'hashivim/vim-vagrant'
 
 call vundle#end()
 
