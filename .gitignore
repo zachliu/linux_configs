@@ -1,0 +1,8 @@
+# ignore everything
+*
+
+# but not theses
+!.gitignore
+!.vimrc
+!README.md
+
