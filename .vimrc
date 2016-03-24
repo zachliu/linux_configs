@@ -1,12 +1,19 @@
+" vim:fdm=marker
+" Initial Global Settings ------------ {{{
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
+" Highlight search
 set hlsearch
+set ts=4 sw=4 expandtab
+" }}}
 
+" Line 80 Bar ----------------- {{{
 if (exists('+colorcolumn'))
    set colorcolumn=80
    highlight ColorColumn ctermbg=9
 endif
+" }}}
 
 " Plugins ----------------- {{{
 call vundle#begin()
@@ -27,6 +34,8 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-eunuch'
 Plugin 'hashivim/vim-terraform'
+Plugin 'jiangmiao/auto-pairs'
+
 call vundle#end()
 
 filetype plugin indent on
@@ -69,6 +78,7 @@ catch
 endtry
 " }}}
 
+" Indentation settings -------------- {{{
 augroup yaml
     autocmd Filetype yaml setlocal indentkeys-=:
 augroup END
@@ -80,11 +90,6 @@ augroup vimrc_autocmds
     autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
     autocmd FileType python match Excess /\%120v.*/
     autocmd FileType python set nowrap
-augroup END
-
-augroup tabs_terraform
-    autocmd!
-    autocmd Filetype .tf,.tfvars :setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=4
 augroup END
 
 augroup indentation_sr
@@ -104,4 +109,4 @@ augroup TabsNotSpaces
     autocmd BufRead,BufNewFile *.otl :setlocal tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab
     autocmd BufRead,BufNewFile *GNUmakefile,*makefile,*Makefile :setlocal tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab
 augroup END
-
+" }}}
