@@ -1,11 +1,8 @@
-" vim:fdm=marker
+" vim:fdm
 " Initial Global Settings ------------ {{{
 set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/vundle/
 " Highlight search
 set hlsearch
-set ts=4 sw=4 expandtab
 " }}}
 
 " Line 80 Bar ----------------- {{{
@@ -15,38 +12,35 @@ if (exists('+colorcolumn'))
 endif
 " }}}
 
-" Plugins ----------------- {{{
-call vundle#begin()
+" Plugs ----------------- {{{
+call plug#begin('~/.vim/plugged')
 
 " Requirement to use Vundle as vim plugin manager
-Plugin 'gmarik/vundle'
-Plugin 'scrooloose/nerdtree'
-Plugin 'hdima/python-syntax'
-Plugin 'elzr/vim-json'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
-Plugin 'hashivim/vim-vagrant'
-" Plugin 'chase/vim-ansible-yaml'
-Plugin 'pearofducks/ansible-vim'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'tomasr/molokai'
-Plugin 'tpope/vim-eunuch'
-Plugin 'hashivim/vim-terraform'
-Plugin 'jiangmiao/auto-pairs'
+Plug 'scrooloose/nerdtree'
+Plug 'hdima/python-syntax'
+Plug 'elzr/vim-json'
+Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
+Plug 'hashivim/vim-vagrant'
+Plug 'pearofducks/ansible-vim'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'tomasr/molokai'
+Plug 'tpope/vim-eunuch'
+Plug 'hashivim/vim-terraform'
+Plug 'jiangmiao/auto-pairs'
 
-call vundle#end()
+call plug#end()
 
-filetype plugin indent on
 " }}}
 
-" Plugin settings for powerline ----------------- {{{
+" Plug settings for powerline ----------------- {{{
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 set laststatus=2
 " }}}
 
-" Plugin settings for Nerdtree ----------------- {{{
+" Plug settings for Nerdtree ----------------- {{{
 map F2 for Nerdtree
 map <F2> :NERDTreeToggle<CR>
 " }}}
@@ -79,8 +73,10 @@ endtry
 " }}}
 
 " Indentation settings -------------- {{{
+" For yaml files
 augroup yaml
-    autocmd Filetype yaml setlocal indentkeys-=:
+    filetype plugin indent on
+    autocmd Filetype yaml setlocal indentkeys-=<:>
 augroup END
 
 " Highlights files past 120 colums in python
