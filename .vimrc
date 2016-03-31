@@ -1,17 +1,15 @@
-" vim:fdm
+" vim:fdm=marker
 " Initial Global Settings ------------ {{{
 set nocompatible
 " Highlight search
 set hlsearch
 " }}}
-
 " Line 80 Bar ----------------- {{{
 if (exists('+colorcolumn'))
    set colorcolumn=80
    highlight ColorColumn ctermbg=9
 endif
 " }}}
-
 " Plugs ----------------- {{{
 call plug#begin('~/.vim/plugged')
 
@@ -30,21 +28,34 @@ Plug 'tomasr/molokai'
 Plug 'tpope/vim-eunuch'
 Plug 'hashivim/vim-terraform'
 Plug 'jiangmiao/auto-pairs'
-
+Plug 'vim-scripts/groovy.vim'
 call plug#end()
 
 " }}}
-
 " Plug settings for powerline ----------------- {{{
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 set laststatus=2
 " }}}
-
 " Plug settings for Nerdtree ----------------- {{{
 map F2 for Nerdtree
 map <F2> :NERDTreeToggle<CR>
 " }}}
-
+" CTRL-SHIFT-V remap {{{
+if &term =~ "xterm.*"
+    let &t_ti = &t_ti . "\e[?2004h"
+    let &t_te = "\e[?2004l" . &t_te
+    function XTermPasteBegin(ret)
+        set pastetoggle=<Esc>[201~
+        set paste
+        return a:ret
+    endfunction
+    map <expr> <Esc>[200~ XTermPasteBegin("i")
+    imap <expr> <Esc>[200~ XTermPasteBegin("")
+    vmap <expr> <Esc>[200~ XTermPasteBegin("c")
+    cmap <Esc>[200~ <nop>
+    cmap <Esc>[201~ <nop>
+endif
+" }}}
 " Trailing whitespace ------------- {{{
 function! <SID>StripTrailingWhitespaces()
     if exists('b:noStripWhitespace')
@@ -61,7 +72,6 @@ augroup allfiles_trailingspace
     autocmd FileType markdown let b:noStripWhitespace=1
 augroup END
 " }}}
-
 " Syntax coloring ---------------- {{{
 try
     set t_Co=256 " says terminal has 256 colors
@@ -71,12 +81,15 @@ try
 catch
 endtry
 " }}}
-
 " Indentation settings -------------- {{{
 " For yaml files
 augroup yaml
     filetype plugin indent on
     autocmd Filetype yaml setlocal indentkeys-=<:>
+augroup END
+
+augroup jenkinsfile
+    autocmd BufRead,BufNewFile Jenkinsfile set filetype=groovy
 augroup END
 
 " Highlights files past 120 colums in python

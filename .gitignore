@@ -2,6 +2,7 @@
 *
 
 # but not theses
+!.bashrc
 !.gitignore
 !.vimrc
 !README.md
