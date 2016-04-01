@@ -68,4 +68,3 @@ PS1="${PS1_DIR}${PS1_GIT}${PS1_END}"
 
 export LESS="--RAW-CONTROL-CHARS"
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
-
