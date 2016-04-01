@@ -2,6 +2,7 @@ if [ -f ~/.bash/sensitive ] ; then
     source ~/.bash/sensitive
 fi
 
+
 export PATH="$PATH:/usr/local/go/bin"
 export AWS_PRIVATE_KEY="~/.ssh/ansible"
 export EDITOR='/usr/bin/vim'
