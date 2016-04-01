@@ -2,7 +2,7 @@
 *
 
 # but not theses
-!./img/*
+!img/bash_git.png
 !.bashrc
 !.gitignore
 !.vimrc
