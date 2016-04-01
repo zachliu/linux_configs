@@ -33,8 +33,8 @@ BOLD="$(tput bold)"
 function git_color {
   local git_status="$(git status 2> /dev/null)"
   #local branch="${git_branch}"
-  local branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/')"
-  local git_commit="$(git --no-pager diff --stat origin/${branch} 2>/dev/null)"
+  local branch="$(git rev-parse --abbrev-ref HEAD)"
+  local git_commit="$(git --no-pager diff --stat origin/${branch})"
   if [[ ! $git_status =~ "working directory clean" ]]; then
     echo -e $COLOR_RED
   elif [[ $git_status =~ "Your branch is ahead of" ]]; then
