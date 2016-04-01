@@ -20,23 +20,49 @@ alias gitall='find . -name '.git' -type d | while read dir ; \
 #######################################################################
 # Set command to include git branch in my prompt
 #######################################################################
+COLOR_RED="\033[0;31m"
+COLOR_YELLOW="\033[0;33m"
+COLOR_GREEN="\033[0;32m"
+COLOR_PURPLE="\033[1;35m"
+COLOR_OCHRE="\033[38;5;95m"
+COLOR_BLUE="\033[34;5;115m"
+COLOR_WHITE="\033[0;37m"
+COLOR_RESET="\033[0m"
+BOLD="$(tput bold)"
 
-function parse_git_branch () {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+function git_color {
+  local git_status="$(git status 2> /dev/null)"
+
+  if [[ ! $git_status =~ "working directory clean" ]]; then
+    echo -e $COLOR_RED
+  elif [[ $git_status =~ "Your branch is ahead of" ]]; then
+    echo -e $COLOR_YELLOW
+  elif [[ $git_status =~ "nothing to commit" ]]; then
+    echo -e $COLOR_GREEN
+  else
+    echo -e $COLOR_OCHRE
+  fi
 }
 
-BOLD_GREEN="\[$(tput bold)\]\[\033[38;5;10m\]"
-BOLD_BLUE="\[$(tput bold)\]\[\033[38;5;115m\]"
-BOLD_YELLOW="\[$(tput bold)\]\[\033[38;5;226m\]"
-NO_COLOR="\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]"
+function git_branch {
+  local git_status="$(git status 2> /dev/null)"
+  local on_branch="On branch ([^${IFS}]*)"
+  local on_commit="HEAD detached at ([^${IFS}]*)"
 
-PS1_USER_HOST="${BOLD_GREEN}\u@\h "
-PS1_GIT="${BOLD_YELLOW}\$(parse_git_branch)${NO_COLOR} \$ "
-PS1_DIR="${BOLD_BLUE}\w${NO_COLOR}"
+  if [[ $git_status =~ $on_branch ]]; then
+    local branch=${BASH_REMATCH[1]}
+    echo "($branch)"
+  elif [[ $git_status =~ $on_commit ]]; then
+    local commit=${BASH_REMATCH[1]}
+    echo "($commit)"
+  fi
+}
+#User and pwd
+PS1_DIR="\[$BOLD\]\[$COLOR_BLUE\]\u@\h \[$BOLD\]\[$COLOR_PURPLE\][\w] "
+PS1_GIT="\[\$(git_color)\]\[$BOLD\]\$(git_branch)\[$BOLD\]\[$COLOR_RESET\] "
+PS1_END="\[$BOLD\]$ \[$COLOR_RESET\]"
+PS1="${PS1_DIR}${PS1_GIT}${PS1_END}"
 
-PS1="${PS1_USER_HOST}${PS1_DIR}${PS1_GIT}"
-
-# For man page formatting
 export LESS="--RAW-CONTROL-CHARS"
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
