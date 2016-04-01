@@ -15,7 +15,7 @@ alias pbpaste='xclip -select clipboard -o'
 alias apv='ansible-playbook --ask-vault-pass'
 alias ap='ansible-playbook'
 alias gitall='find . -name '.git' -type d | while read dir ; \
-              do sh -c "cd $dir/../ && git status" ; done'
+              do sh -c "echo $dir && cd $dir/../ && git status" ; done'
 
 #######################################################################
 # Set command to include git branch in my prompt
