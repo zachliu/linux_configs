@@ -24,7 +24,7 @@ COLOR_RED="\033[0;31m"
 COLOR_YELLOW="\033[0;33m"
 COLOR_GREEN="\033[0;32m"
 COLOR_PURPLE="\033[1;35m"
-COLOR_OCHRE="\033[38;5;95m"
+COLOR_ORANGE="\033[38;5;202m"
 COLOR_BLUE="\033[34;5;115m"
 COLOR_WHITE="\033[0;37m"
 COLOR_RESET="\033[0m"
@@ -32,15 +32,16 @@ BOLD="$(tput bold)"
 
 function git_color {
   local git_status="$(git status 2> /dev/null)"
-
+  local git_commit="$(git --no-pager diff --stat origin/master)"
   if [[ ! $git_status =~ "working directory clean" ]]; then
     echo -e $COLOR_RED
   elif [[ $git_status =~ "Your branch is ahead of" ]]; then
     echo -e $COLOR_YELLOW
-  elif [[ $git_status =~ "nothing to commit" ]]; then
+  elif [[ $git_status =~ "nothing to commit" ]] && \
+      [[ -n $git_commit ]]; then
     echo -e $COLOR_GREEN
   else
-    echo -e $COLOR_OCHRE
+    echo -e $COLOR_ORANGE
   fi
 }
 
