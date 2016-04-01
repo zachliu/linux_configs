@@ -38,10 +38,10 @@ function git_color {
   elif [[ $git_status =~ "Your branch is ahead of" ]]; then
     echo -e $COLOR_YELLOW
   elif [[ $git_status =~ "nothing to commit" ]] && \
-      [[ -n $git_commit ]]; then
+      [[ ! -n $git_commit ]]; then
     echo -e $COLOR_GREEN
   else
-    echo -e $COLOR_ORANGE
+    echo -e $COLOR_WHITE
   fi
 }
 
