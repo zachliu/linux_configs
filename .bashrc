@@ -1,25 +1,3 @@
-if [ -f ~/.bash/sensitive ] ; then
-    source ~/.bash/sensitive
-fi
-
-export PATH="$PATH:/usr/local/go/bin"
-export AWS_PRIVATE_KEY="~/.ssh/ansible"
-export EDITOR='/usr/bin/vim'
-
-export TF_VAR_dir_ansible='/home/bkim/src/KeplerGroup/kepler-ansible'
-export TF_VAR_private_key='/home/bkim/.ssh/ansible'
-
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -select clipboard -o'
-
-alias apv='ansible-playbook --ask-vault-pass'
-alias ap='ansible-playbook'
-alias gitall='find . -name '.git' -type d | while read dir ; \
-              do sh -c "echo $dir && cd $dir/../ && git status" ; done'
-
-#######################################################################
-# Set command to include git branch in my prompt
-#######################################################################
 COLOR_RED="\033[0;31m"
 COLOR_YELLOW="\033[0;33m"
 COLOR_GREEN="\033[0;32m"
@@ -53,17 +31,24 @@ function git_branch {
 
   if [[ $git_status =~ $on_branch ]]; then
     local branch=${BASH_REMATCH[1]}
-    echo "($branch) "
+    echo "($branch)"
   elif [[ $git_status =~ $on_commit ]]; then
     local commit=${BASH_REMATCH[1]}
-    echo "($commit) "
+    echo "($commit)"
   fi
 }
+
 #User and pwd
-PS1_DIR="\[$BOLD\]\[$COLOR_BLUE\]\u@\h \[$BOLD\]\[$COLOR_PURPLE\][\w] "
-PS1_GIT="\[\$(git_color)\]\[$BOLD\]\$(git_branch)\[$BOLD\]\[$COLOR_RESET\]"
-PS1_END="\[$BOLD\]$ \[$COLOR_RESET\]"
+PS1_DIR="\
+
+\[$BOLD\]\[$COLOR_BLUE\]\u@\h \[$BOLD\]\[$COLOR_PURPLE\][\w] "
+
+PS1_GIT="\[\$(git_color)\]\[$BOLD\]\$(git_branch)\[$BOLD\]\[$COLOR_RESET\] "
+
+PS1_END="\
+
+\[$BOLD\]$ \[$COLOR_RESET\]"
+
 PS1="${PS1_DIR}${PS1_GIT}${PS1_END}"
 
-#export LESS="--RAW-CONTROL-CHARS"
-#[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+alias kip='psql -h kepler-redshift-analytics.c6lszuuxfgao.us-east-1.redshift.amazonaws.com -U kip -p 5439'
