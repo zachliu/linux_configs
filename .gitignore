@@ -1,5 +1,4 @@
 # ignore everything
-*
 
 # but not theses
 !img/bash_git.png
